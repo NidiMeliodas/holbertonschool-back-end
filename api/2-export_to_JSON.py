@@ -9,35 +9,33 @@ import sys
 
 
 def api(user_id):
-    user_link = 'https://jsonplaceholder.typicode.com/users' + user_id
-    todos_link = "https://jsonplaceholder.typicode.com/todos"
+    """
+    YES sirrr
+    """
+    user_link = requests.get(
+        f'https://jsonplaceholder.typicode.com/users/{user_id}')
+    todos_link = requests.get(
+        f"https://jsonplaceholder.typicode.com/users/{user_id}/todos")
+    
+    user_name = user_link.json()['username']
 
-    answer = requests.get(user_link)
+    task_todo = []
 
-    if (answer.ok):
-        jData = json.loads(answer.content)
-        EMPLOYEE_NAME = jData["name"]
-    else:
-        answer.raise_for_status
+    for todo in todos_link.json():
+        task_dict = {}
+        task_title = todo['title']
+        task_status = todo['completed']
+        task_dict = {"task": task_title,
+                     "completed": task_status, "username": user_name}
+        task_todo.append(task_dict)
 
-    query = {'userId': user_id}
-
-    answer = requests.get(todos_link, params=query)
-    if (answer.ok):
-        jData = json.loads(answer.content)
-
-        tasks = []
-        for task in jData:
-            tasks.append({
-                "task": task.get("title"), "completed": task.get("completed"),
-                "username": EMPLOYEE_NAME
-            })
-
-        with open("{}.json".format(user_id), "w") as json_file:
-            json.dump({user_id: tasks}, json_file)
-    else:
-        answer.raise_for_status()
+    with open(f"{user_id}.json", "w") as file:
+        json.dump({user_id: task_todo}, file)
 
 
 if __name__ == "__main__":
-    api(sys.argv[1])
+    try:
+        user_id = sys.argv[1]
+        api(user_id)
+    except Exception as e:
+        pass

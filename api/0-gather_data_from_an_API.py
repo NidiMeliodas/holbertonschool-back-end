@@ -25,7 +25,7 @@ def api(employee_id):
     nb_tasks = len(data_todo)
 
     done_tasks = len(
-        [todo for todo in data_todo if todo['Completed']]
+        [todo for todo in data_todo if todo['completed']]
     )
 
     str1 = f"Employee {usrname} is done with tasks"
@@ -33,7 +33,7 @@ def api(employee_id):
     print(str1 + str2)
 
     for todo in data_todo:
-        if todo['Completed']:
+        if todo['completed']:
             print('\t ' + todo['title'])
 
 

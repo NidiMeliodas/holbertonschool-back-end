@@ -3,44 +3,42 @@
 Task 0 ------
 """
 
-import json
+
 import requests
 import sys
 
 
-def api():
-    user_link = 'https://jsonplaceholder.typicode.com/users' + sys.argv[1]
-    todos_link = "https://jsonplaceholder.typicode.com/todos"
+def api(employee_id):
+    """
+    YES sirrr
+    """
+    user_link = requests.get(
+        f'https://jsonplaceholder.typicode.com/users/{employee_id}')
+    todos_link = requests.get(
+        f"https://jsonplaceholder.typicode.com/users/{employee_id}/todos")
+    
+    data_user = user_link.json()
+    data_todo = todos_link.json()
 
-    answer = requests.get(user_link)
+    usrname = data_user['name']
+    
+    nb_tasks = len(data_todo)
 
-    if (answer.ok):
-        jData = json.loads(answer.content)
-        EMPLOYEE_NAME = jData["name"]
-    else:
-        answer.raise_for_status
+    done_tasks = len(
+        [todo for todo in data_todo if todo['Completed']]
+    )
 
-    query = {'userId': sys.argv[1]}
+    str1 = f"Employee {usrname} is done with tasks"
+    str2 = f"({done_tasks}/{nb_tasks}):"
+    print(str1 + str2)
 
-    answer = requests.get(todos_link, params=query)
-    if (answer.ok):
-        jData = json.loads(answer.content)
-        TOTAL_NUMBER_OF_TASKS = len(jData)
-
-        NUMBER_OF_DONE_TASKS = 0
-        for todo in jData:
-            if todo["completed"] is True:
-                NUMBER_OF_DONE_TASKS += 1
-
-        print("Employee " + EMPLOYEE_NAME + " is done with tasks(" +
-              str(NUMBER_OF_DONE_TASKS) +
-              "/" + str(TOTAL_NUMBER_OF_TASKS) + ")")
-        for todo in jData:
-            if todo["completed"] is True:
-                print("\t " + todo["title"])
-    else:
-        answer.raise_for_status()
-
+    for todo in data_todo:
+        if todo['Completed']:
+            print('\t '+ todo['title'])
 
 if __name__ == "__main__":
-    api()
+    try:
+        employee_id = sys.argv[1]
+        api(employee_id)
+    except Exception as e:
+        pass

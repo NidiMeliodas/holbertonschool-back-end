@@ -14,9 +14,9 @@ def api(user_id):
     YES sirrr
     """
     user_link = requests.get(
-        f'https://jsonplaceholder.typicode.com/users/{employee_id}')
+        f'https://jsonplaceholder.typicode.com/users/{user_id}')
     todos_link = requests.get(
-        f"https://jsonplaceholder.typicode.com/users/{employee_id}/todos")
+        f"https://jsonplaceholder.typicode.com/users/{user_id}/todos")
 
     user_name = user_link.json()['username']
 

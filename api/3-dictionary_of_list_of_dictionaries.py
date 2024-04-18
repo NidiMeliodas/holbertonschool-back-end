@@ -13,14 +13,15 @@ def api():
     YES sirrr
     """
     user_link = requests.get('https://jsonplaceholder.typicode.com/users')
-    todos_link = requests.get(
-        f'https://jsonplaceholder.typicode.com/users/{user_id}/todos')
-
+    
     all_users_tasks = {}
 
     for user in user_link.json():
         user_id = user['id']
         user_name = user['username']
+
+        todos_link = requests.get(
+            f'https://jsonplaceholder.typicode.com/users/{user_id}/todos')
 
         tasks_list = []
         for todo in todos_link.json():

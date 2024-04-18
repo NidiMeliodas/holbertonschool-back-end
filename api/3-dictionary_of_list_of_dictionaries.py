@@ -5,16 +5,16 @@ Task 3 ------
 
 import json
 import requests
+import sys
 
 
 def api():
     """
     YES sirrr
     """
-    user_link = requests.get(
-        'https://jsonplaceholder.typicode.com/users')
+    user_link = requests.get('https://jsonplaceholder.typicode.com/users')
     todos_link = requests.get(
-        f"https://jsonplaceholder.typicode.com/users/{user_id}/todos")
+        f'https://jsonplaceholder.typicode.com/users/{user_id}/todos')
 
     all_users_tasks = {}
 

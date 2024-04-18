@@ -5,7 +5,6 @@ Task 3 ------
 
 import json
 import requests
-import sys
 
 
 def api():
@@ -13,7 +12,7 @@ def api():
     YES sirrr
     """
     user_link = requests.get('https://jsonplaceholder.typicode.com/users')
-    
+
     all_users_tasks = {}
 
     for user in user_link.json():

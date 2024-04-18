@@ -16,12 +16,12 @@ def api(employee_id):
         f'https://jsonplaceholder.typicode.com/users/{employee_id}')
     todos_link = requests.get(
         f"https://jsonplaceholder.typicode.com/users/{employee_id}/todos")
-    
+
     data_user = user_link.json()
     data_todo = todos_link.json()
 
     usrname = data_user['name']
-    
+
     nb_tasks = len(data_todo)
 
     done_tasks = len(
@@ -34,7 +34,8 @@ def api(employee_id):
 
     for todo in data_todo:
         if todo['Completed']:
-            print('\t '+ todo['title'])
+            print('\t ' + todo['title'])
+
 
 if __name__ == "__main__":
     try:
